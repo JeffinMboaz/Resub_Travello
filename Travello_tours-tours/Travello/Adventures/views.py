@@ -155,17 +155,46 @@ def ven_user_login(request):
 def uv_login(request):
     return render(request, 'user_vendor_login.html')
 
+# def create_package(request):
+    # if request.method == 'POST':
+    #     form = CreatedPackageForm(request.POST)
+    #     if form.is_valid():
+    #         package = form.save(commit=False)
+    #         vendor = Vendor.objects.get(id=request.session['vendor_id'])
+    #         package.vendor = vendor
+    #         package.save()
+    #         return redirect('success')
+    #     else: print(form.errors)  # ⬅️ Add this line
+
+    # else:
+    #     form = CreatedPackageForm()
+    # return render(request, 'vendor/create_package.html', {'form': form})
 def create_package(request):
     if request.method == 'POST':
+        print("🚀 POST data:", request.POST)
+        print("🧾 Vendor ID in session:", request.session.get('vendor_id'))
+
         form = CreatedPackageForm(request.POST)
         if form.is_valid():
             package = form.save(commit=False)
-            vendor = Vendor.objects.get(id=request.session['vendor_id'])
-            package.vendor = vendor
-            package.save()
-            return redirect('success')
+
+            # Get vendor from session
+            try:
+                vendor = Vendor.objects.get(id=request.session['vendor_id'])
+                package.vendor = vendor
+                package.save()
+                print("✅ Package saved successfully")
+                return redirect('success')
+            except Vendor.DoesNotExist:
+                print("❌ Vendor not found in DB")
+
+        else:
+            print("❌ Form is not valid:")
+            print(form.errors)
+
     else:
         form = CreatedPackageForm()
+
     return render(request, 'vendor/create_package.html', {'form': form})
 
 def success(request):

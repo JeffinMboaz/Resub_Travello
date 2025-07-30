@@ -20,7 +20,6 @@
        .carousel-item-img {
          filter: brightness(0.8);
        }
-       {% comment %} tourdisplay cards {% endcomment %}
        .tourcards {
          display: grid;
          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -499,7 +498,7 @@
     </footer>
 
 <!-- Script -->
-<script>
+<!-- <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Show logout toast if it exists
     const logoutToastEl = document.getElementById("logoutToast");
@@ -522,11 +521,28 @@
       });
     });
   });
+</script> -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const isLoggedIn = "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
+
+    const loginToastEl = document.getElementById("loginToast");
+
+    document.querySelectorAll(".view-more, .package-image").forEach((item) => {
+      item.addEventListener("click", function (e) {
+        if (!isLoggedIn) {
+          e.preventDefault();
+          loginToastEl.style.display = "block";
+          new bootstrap.Toast(loginToastEl).show();
+        }
+      });
+    });
+  });
 </script>
 
-
     <!-- Script to show toasts -->
-    {% comment %} <script>
+     <!-- <script>
       document.addEventListener("DOMContentLoaded", function () {
         // Show all toast messages (like logout)
         var toastElList = [].slice.call(document.querySelectorAll(".toast"));
@@ -547,7 +563,23 @@
           });
         });
       });
-    </script> {% endcomment %}
+    </script>  -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const isLoggedIn = "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
+    const loginToastEl = document.getElementById("loginToast");
+
+    document.querySelectorAll(".view-more, .package-image").forEach((item) => {
+      item.addEventListener("click", function (e) {
+        if (!isLoggedIn) {
+          e.preventDefault();
+          loginToastEl.style.display = "block";
+          new bootstrap.Toast(loginToastEl).show();
+        }
+      });
+    });
+  });
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>

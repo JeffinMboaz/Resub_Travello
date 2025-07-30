@@ -25,6 +25,7 @@ urlpatterns = [
 
 
     path('vendor/create_package/', views.create_package, name='create_package'),
+    
     path('success/',views.success,name='success'),
     path('non_expired_package/', views.non_expired_package, name='non_expired_package'),
     
