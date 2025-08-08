@@ -14,7 +14,7 @@ body, html {
     color: white;
   }
   
-  .floating-search-bar {
+  /* .floating-search-bar {
     position: fixed;
     top: 1px;
     left: 60%;
@@ -55,8 +55,38 @@ body, html {
     outline: none !important;
     box-shadow: none !important;
     border-color: transparent !important;
-  }
+  } */
   
+  /* Keep your existing floating-search-bar styles */
+
+/* New style for second search bar */
+.inline-search-bar {
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto;
+  background-color: rgba(0, 0, 0, 0.58);
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.inline-search-bar input {
+  background: transparent;
+  border: none;
+  color: white;
+}
+
+.inline-search-bar input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+@media (max-width: 768px) {
+  .inline-search-bar {
+    width: 90%;
+  }
+}
+
   .navbar {
     background: rgba(0, 0, 0, 0.58) !important;
     backdrop-filter: blur(5px);
