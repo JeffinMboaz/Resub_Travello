@@ -35,6 +35,21 @@ body {
     box-shadow: none !important;
     border-color: transparent !important;
   }
+@media (max-width: 576px) {
+  .floating-search-bar {
+    width: 95%;
+    margin: 10px auto;
+    padding: 0.5rem;
+  }
+
+  .floating-search-bar .form-control {
+    font-size: 0.875rem;
+  }
+
+  .floating-search-bar button {
+    padding: 0.375rem 0.75rem;
+  }
+}
 
 
 /* navbar transparent */
