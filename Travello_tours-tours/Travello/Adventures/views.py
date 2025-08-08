@@ -169,6 +169,37 @@ def uv_login(request):
     # else:
     #     form = CreatedPackageForm()
     # return render(request, 'vendor/create_package.html', {'form': form})
+# def create_package(request):
+#     if request.method == 'POST':
+#         print("🚀 POST data:", request.POST)
+#         print("🧾 Vendor ID in session:", request.session.get('vendor_id'))
+
+#         form = CreatedPackageForm(request.POST)
+#         if form.is_valid():
+#             package = form.save(commit=False)
+
+#             # Get vendor from session
+#             try:
+#                 vendor = Vendor.objects.get(id=request.session['vendor_id'])
+#                 package.vendor = vendor
+#                 package.save()
+#                 print("✅ Package saved successfully")
+#                 return redirect('success')
+#             except Vendor.DoesNotExist:
+#                 print("❌ Vendor not found in DB")
+
+#         else:
+#             print("❌ Form is not valid:")
+#             print(form.errors)
+
+#     else:
+#         form = CreatedPackageForm()
+
+#     return render(request, 'vendor/create_package.html', {'form': form})
+
+# def success(request):
+#     return render(request, 'success.html')
+
 def create_package(request):
     if request.method == 'POST':
         print("🚀 POST data:", request.POST)
@@ -191,6 +222,9 @@ def create_package(request):
         else:
             print("❌ Form is not valid:")
             print(form.errors)
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.capitalize()}: {error}")
 
     else:
         form = CreatedPackageForm()
