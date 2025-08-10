@@ -202,7 +202,7 @@ def uv_login(request):
 
 def create_package(request):
     if request.method == 'POST':
-        print("🚀 POST data:", request.POST, request.FILES)
+        print("🚀 POST data:", request.POST)
         print("🧾 Vendor ID in session:", request.session.get('vendor_id'))
 
         form = CreatedPackageForm(request.POST,request.FILES)
