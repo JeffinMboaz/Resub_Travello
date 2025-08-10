@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Adventures',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +148,12 @@ CSRF_TRUSTED_ORIGINS = [
 # Razorpay Credentials
 RAZORPAY_KEY_ID = "rzp_test_rMb5r8OSJk7ZFw"
 RAZORPAY_KEY_SECRET = "GFaEUtGetevVZr4ziuYGCc6h"
+
+# Cloudinary credentials
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dcicgs0xz',
+    'API_KEY': '696187454787583',
+    'API_SECRET': 'V7-x_W-D0xAD2_53n_WL5ShUCEw',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

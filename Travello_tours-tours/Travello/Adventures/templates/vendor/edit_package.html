@@ -38,7 +38,7 @@
         </div>
 
 
-        <div class="form-floating mb-3 col-md-6">
+        <!-- <div class="form-floating mb-3 col-md-6">
           <input
             type="url"
             class="form-control"
@@ -50,7 +50,25 @@
              style="border: 2px solid blue"
           />
           <label for="place_image" class="mx-2">Place Image URL</label>
-        </div>
+        </div> -->
+<div class="mb-3 col-md-6">
+  <label for="place_image" class="form-label">Place Image</label>
+  
+  {% if package.place_image %}
+    <div class="mb-2">
+      <img src="{{ package.place_image.url }}" alt="Current Image" class="img-fluid rounded" style="max-height: 200px;">
+    </div>
+  {% endif %}
+  
+  <input
+    type="file"
+    class="form-control"
+    id="place_image"
+    name="place_image"
+    accept="image/*"
+    style="border: 2px solid blue"
+  />
+</div>
 
         <div class="form-floating mb-3 col-md-6">
           <input

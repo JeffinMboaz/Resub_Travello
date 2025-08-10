@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import date
-
+from cloudinary.models import CloudinaryField
 # Vendor Model
 class Vendor(models.Model):
     username = models.CharField(max_length=150, unique=True)
@@ -38,7 +38,8 @@ class Create_Tour_Package(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     package_title = models.CharField(max_length=200)
     destination = models.CharField(max_length=200)
-    place_image = models.URLField()  # For image URL (copy image address)
+    # place_image = models.URLField()  # For image URL (copy image address)
+    place_image = CloudinaryField('image', folder='tour_packages')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     duration = models.IntegerField(help_text="Duration in days")

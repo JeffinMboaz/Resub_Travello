@@ -26,7 +26,7 @@
     <div class="card shadow-sm w-100 d-flex flex-column">
       <a href="{% url 'package_details' package.id %}">
         <img
-          src="{{ package.place_image }}"
+          src="{{package.place_image.url }}"
           class="card-img-top img-fluid"
           alt="{{ package.package_title }}"
         />
