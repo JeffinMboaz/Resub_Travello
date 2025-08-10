@@ -1,76 +1,48 @@
-{% extends 'base.html' %} {% block title %}Package details{% endblock %}
-{%block content %}
+{% extends 'base.html' %}
+{% block title %}Package details{% endblock %}
+{% block content %}
 <div style="margin-top: 90px;">
 
-  <!-- Messages Section -->
-  <!-- {% if messages %}
+  {% if messages %}
   <div class="container mt-3">
     {% for message in messages %}
-    <div class="alert bg-success alert-dismissible fade show text-white text-center" role="alert"
-      id="autoCloseAlert{{ forloop.counter }}">
+    <div class="alert alert-success alert-dismissible fade show text-center auto-close-alert" role="alert">
       {{ message }}
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endfor %}
   </div>
 
   <script>
-    // Auto close each alert after 2 seconds
-    document.addEventListener("DOMContentLoaded", function () {
-    {% for message in messages %
-        setTimeout(function () {
-          var alert = document.getElementById("autoCloseAlert{{ forloop.counter }}");
-          if (alert) {
-            var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
-            bsAlert.close();
-          }
-        }, 2000);
-      {% endfor %}
-});
-
-  </script>
-  {% endif %} -->
-  {% if messages %}
-<div class="container mt-3">
-  {% for message in messages %}
-  <div class="alert bg-success alert-dismissible fade show text-white text-center auto-close-alert"
-       role="alert">
-    {{ message }}
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  {% endfor %}
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".auto-close-alert").forEach(function (alertEl) {
-    setTimeout(function () {
-      var bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
-      bsAlert.close();
-    }, 2000);
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".auto-close-alert").forEach(function (alertEl) {
+      setTimeout(function () {
+        var bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+        bsAlert.close();
+      }, 2000);
+    });
   });
-});
-</script>
-{% endif %}
+  </script>
+  {% endif %}
 
   <h4 class="pb-2 ps-5 bg-light">Package Details</h4>
   <!-- Package Details -->
-  <div class=" package-details ">
+  <div class="package-details">
 
     <div class="package-details-img">
-      <img src="{{ package.place_image.url}}" alt="Package Image" class="package-img" />
+      <img src="{{ package.place_image.url }}" alt="Package Image" class="package-img" />
     </div>
     <hr class="mx-5" />
     <div class="package-details-body">
-      <h2 class="mb-4 text-center ">{{ package.package_title }}</h2>
-      <p><strong>Destination: {{ package.destination }}</strong></p>
-      <p><strong>Price: ₹{{ package.price }}</strong></p>
-      <p><strong>Description: {{ package.description }}</strong></p>
-      <p><strong>Duration: {{ package.duration }} days </strong></p>
-      <p><strong>Start Date: {{ package.start_date }}</strong></p>
-      <p><strong>End Date: {{ package.end_date }}</strong></p>
+      <h2 class="mb-4 text-center">{{ package.package_title }}</h2>
+      <p><strong>Destination:</strong> {{ package.destination }}</p>
+      <p><strong>Price:</strong> ₹{{ package.price }}</p>
+      <p><strong>Description:</strong> {{ package.description }}</p>
+      <p><strong>Duration:</strong> {{ package.duration }} days</p>
+      <p><strong>Start Date:</strong> {{ package.start_date }}</p>
+      <p><strong>End Date:</strong> {{ package.end_date }}</p>
     </div>
-    <div class="d-flex justify-content-center gap-3  pb-3 mt-4">
+    <div class="d-flex justify-content-center gap-3 pb-3 mt-4">
       <a href="{% url 'confirm_payment' package.id %}" class="btn btn-success">Confirm & Pay</a>
       <a href="{% url 'return_to_user_dashboard' %}" class="btn btn-secondary px-5">Back</a>
     </div>
