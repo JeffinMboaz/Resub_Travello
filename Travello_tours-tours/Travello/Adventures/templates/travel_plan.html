@@ -1,5 +1,14 @@
 {% extends 'base.html' %} {% block title %}User dashboard{% endblock %}
 {% block content %}
+{% load static %}
+<link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap" rel="stylesheet">
+
+<style>
+    h1,.quets {
+          font-family: "Merienda", cursive;
+    }
+   
+</style>
 
 <div class="welcome-text ">
   <h1 class="">
@@ -7,7 +16,7 @@
     <span class="text-capitalize">{{ first_name }} {{ last_name }}</span> to
     Travello Tours
   </h1>
-  <p class="text-lead">
+  <p class="text-lead  quets">
     Explore our tour packages and plan your next adventure!
   </p>
   <button class="welcome-btn">Book Now</button>

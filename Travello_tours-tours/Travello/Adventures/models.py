@@ -79,9 +79,20 @@ class Create_Tour_Package(models.Model):
 
 
 class Manage_Bills(models.Model):
+    PAYMENT_STATUS = [
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+    ]
+     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     package = models.ForeignKey(Create_Tour_Package, on_delete=models.CASCADE, related_name="bookings")
-    date_booked = models.DateTimeField(auto_now_add=True)
+    date_booked = models.DateTimeField(auto_now_add=True) 
+    # New fields for payment tracking
+    razorpay_order_id = models.CharField(max_length=255, blank=True, null=True)
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default='pending')
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+
 
     def __str__(self):
         return f"{self.user.username} - {self.package.package_title}"

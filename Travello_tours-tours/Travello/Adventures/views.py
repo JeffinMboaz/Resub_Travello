@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 from django.db.models import Q
 
+import razorpay
+from django.conf import settings
 # from django.views.decorators import login_required
 
 # Home Page
@@ -308,22 +310,59 @@ def package_details(request, package_id):
     package = get_object_or_404(Create_Tour_Package, id=package_id)
     return render(request, 'user/package_details.html', {'package': package})
 
+# def confirm_payment(request, package_id):
+#     package = get_object_or_404(Create_Tour_Package, id=package_id)
+
+#     # Check if the user has already booked this package
+#     already_booked = Manage_Bills.objects.filter(user=request.user, package=package).exists()
+#     if already_booked:
+#          messages.warning(request, "You have already booked this package.")
+#          return redirect('package_details', package_id=package.id)  # ✅ This sends user back to the package detail page
+
+#     # Proceed with booking
+#     package.booking_count += 1
+#     package.save()
+#     Manage_Bills.objects.create(user=request.user, package=package)
+    
+#     messages.success(request, "Booking successful!")
+#     return render(request, 'user/payment_page.html', {'package': package})
+
+
+
 def confirm_payment(request, package_id):
     package = get_object_or_404(Create_Tour_Package, id=package_id)
 
-    # Check if the user has already booked this package
-    already_booked = Manage_Bills.objects.filter(user=request.user, package=package).exists()
-    if already_booked:
-         messages.warning(request, "You have already booked this package.")
-         return redirect('package_details', package_id=package.id)  # ✅ This sends user back to the package detail page
+    # Check if already booked
+    booking = Manage_Bills.objects.filter(user=request.user, package=package).first()
+    if booking:
+        if booking.payment_status == "paid":
+            messages.warning(request, "You have already paid for this package.")
+        else:
+            messages.info(request, "You have already booked but payment is pending.")
+        return redirect('user_bookings')
 
-    # Proceed with booking
+    # Create booking with pending payment
+    booking = Manage_Bills.objects.create(
+        user=request.user,
+        package=package,
+        payment_status='pending',
+        amount_paid=0
+    )
+
     package.booking_count += 1
     package.save()
-    Manage_Bills.objects.create(user=request.user, package=package)
-    
-    messages.success(request, "Booking successful!")
-    return render(request, 'user/payment_page.html', {'package': package})
+
+    return render(request, 'user/payment_page.html', {'package': package, 'booking': booking})
+
+
+def payment_success(request, booking_id):
+    booking = get_object_or_404(Manage_Bills, id=booking_id, user=request.user)
+    booking.payment_status = "paid"
+    booking.amount_paid = booking.package.price
+    booking.save()
+
+    messages.success(request, "Payment successful! Your booking is confirmed.")
+    return redirect('package_details', package_id=booking.package.id)
 
 # show bookings of avtive packages userbooking page
 def user_bookings(request):
@@ -419,3 +458,4 @@ def search_packages(request):
         )
 
     return render(request, 'user/search_packages.html', {'results': results, 'query': query})
+

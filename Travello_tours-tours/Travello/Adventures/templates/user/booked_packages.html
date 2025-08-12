@@ -26,6 +26,9 @@
           <th>Company</th>
           <th>Vendor Phone</th>
           <th>Vendor Name</th>
+          <th>Payment Status</th>
+          
+
         </tr>
       </thead>
       <tbody>
@@ -36,7 +39,13 @@
           <td>{{ booking.package.vendor.company }}</td>
           <td>{{ booking.package.vendor.phone_no }}</td>
           <th>{{ booking.package.vendor.full_name }}</th>
-
+ <td>
+    {% if booking.payment_status == 'paid' %}
+      <span class="badge bg-success">Paid</span>
+    {% else %}
+      <a href="https://rzp.io/rzp/zHUAdbZP" class="btn btn-primary btn-sm">Pay</a>
+    {% endif %}
+  </td>
         </tr>
         {% endfor %}
       </tbody>

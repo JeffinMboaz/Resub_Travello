@@ -6,8 +6,8 @@ from django.contrib import admin
 # Register your models here.
 
 from django.contrib import admin,messages
-from .models import Vendor,Create_Tour_Package
-
+from .models import Vendor,Create_Tour_Package,Manage_Bills
+from django.db.models import Sum
 
 class VendorAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'first_name', 'second_name', 'phone_no', 'company', 'date_created')
@@ -20,7 +20,7 @@ class VendorAdmin(admin.ModelAdmin):
 admin.site.register(Vendor, VendorAdmin)
 
 class TourPackageAdmin(admin.ModelAdmin):
-    list_display = ['package_title', 'vendor', 'destination', 'price', 'approved', 'start_date', 'end_date']
+    list_display = ['package_title', 'vendor', 'destination', 'price', 'approved', 'start_date', 'end_date','total_revenue_display']
     list_filter = ['approved', 'start_date']
     search_fields = ['package_title', 'destination']
     list_editable = ['approved']  # Admin can approve
@@ -30,6 +30,12 @@ class TourPackageAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
         if obj.approved:
             self.message_user(request, f"Package '{obj.package_title}' approved and now visible to users.", messages.SUCCESS)
+
+    
+    def total_revenue_display(self, obj):
+        return obj.bookings.filter(payment_status='paid').aggregate(total=Sum('amount_paid'))['total'] or 0
+    total_revenue_display.short_description = "Total Revenue (₹)"
+
 
 
 

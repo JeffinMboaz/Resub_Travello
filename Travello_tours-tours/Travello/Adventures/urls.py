@@ -51,7 +51,8 @@ urlpatterns = [
 
     path('search_packages/', views.search_packages, name='search_packages'),
     
-
+    # path("confirm-payment/<int:package_id>/", views.confirm_payment, name="confirm_payment"),
+    path("payment-success/<int:booking_id>/", views.payment_success, name="payment_success"),
 
 ]
 
