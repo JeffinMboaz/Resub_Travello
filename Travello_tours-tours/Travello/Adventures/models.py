@@ -5,11 +5,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import date
-from cloudinary.models import CloudinaryField
-
-if settings.USE_CLOUDINARY:
-    from cloudinary.models import CloudinaryField
-
 
 # Vendor Model
 class Vendor(models.Model):
@@ -45,13 +40,8 @@ class Create_Tour_Package(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     package_title = models.CharField(max_length=200)
     destination = models.CharField(max_length=200)
-    # place_image = models.URLField()  # For image URL (copy image address)
-
-    # place_image = CloudinaryField('image', folder='tour_packages')
-    if settings.USE_CLOUDINARY:
-        place_image = CloudinaryField('image', folder='tour_packages')
-    else:
-        place_image = models.ImageField(upload_to='tour_packages/')
+    # place_image = models.URLField()  # For image URL (copy image address)   
+    place_image = models.ImageField(upload_to='tour_packages/')
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
@@ -79,18 +69,12 @@ class Create_Tour_Package(models.Model):
 
 
 class Manage_Bills(models.Model):
-    PAYMENT_STATUS = [
-        ('pending', 'Pending'),
-        ('paid', 'Paid'),
-    ]
+   
      
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     package = models.ForeignKey(Create_Tour_Package, on_delete=models.CASCADE, related_name="bookings")
     date_booked = models.DateTimeField(auto_now_add=True) 
-    # New fields for payment tracking
-    razorpay_order_id = models.CharField(max_length=255, blank=True, null=True)
-    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default='pending')
-    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+   
 
 
 
